@@ -22,18 +22,15 @@ from scipy import interpolate
 from sklearn.neighbors import NearestNeighbors
 
 from sklearn.multioutput import MultiOutputRegressor
-from sklearn.multioutput import RegressorChain
 
 from sklearn.base import (
     BaseEstimator,
-    TransformerMixin,
-    RegressorMixin
+    TransformerMixin
     )
 
 from sklearn.utils.validation import (
     check_array,
-    check_is_fitted,
-    check_X_y
+    check_is_fitted
     )
 
 class PackardTransformer(TransformerMixin, BaseEstimator):
@@ -351,11 +348,6 @@ class LocalModel(BaseEstimator):
             targets = MultiOutputRegressor(regressor).fit(X, y)
         elif self.target == 'variate':
             targets = regressor.fit(X, y)
-        elif self.target == 'chain':
-            targets = RegressorChain(regressor).fit(X, y)
-        elif self.target == 'mlpr':
-            from sklearn.neural_network import MLPRegressor
-            targets = MLPRegressor(max_iter=1500,hidden_layer_sizes=3, alpha=0.1, learning_rate_init=0.000001).fit(X, y)
         else:
             raise ValueError('')
         
